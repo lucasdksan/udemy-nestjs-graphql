@@ -18,9 +18,19 @@ export namespace UpdatedAuthor {
 
             if(!id) throw new BadRequestError("Id not provided");
 
-            const emailExists = await this.authorsRepository.findByEmail(email);
+            const author = await this.authorsRepository.findById(id);
 
-            if(emailExists) throw new ConflictError("Email address used by other author");
+            if(email)  {
+                const emailExists = await this.authorsRepository.findByEmail(email);
+
+                if(emailExists && emailExists.id !== id) throw new ConflictError("Email address used by other author");
+            
+                author.email = email;
+            }
+
+            if(name) author.name = name;
+
+            return this.authorsRepository.update(author);
         }
-}
+    }
 }
