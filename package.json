@@ -19,7 +19,8 @@
     "test:debug": "npx dotenv-cli -e .env.test -- node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.e2e.config.ts",
     "test:int": "npx dotenv-cli -e .env.test -- jest --runInBand --config ./jest.int.config.ts",
-    "prisma:migrate--test": "npx dotenv-cli -e .env.test -- npx prisma migrate deploy"
+    "prisma:migrate--test": "npx dotenv-cli -e .env.test -- npx prisma migrate deploy",
+    "docker": "docker compose up"
   },
   "dependencies": {
     "@apollo/server": "^4.11.2",

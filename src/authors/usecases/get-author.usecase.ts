@@ -4,10 +4,9 @@ import { AuthorsPrismaRepository } from "../repositories/authores-prisma.reposit
 import { ConflictError } from "@/shared/errors/conflict-error";
 import { AuthorOutput } from "../dto/author-output";
 
-export namespace CreateAuthor {
+export namespace GetAuthor {
     export type Input = {
-        name: string;
-        email: string;
+        id: string;
     }
 
     export type Output = AuthorOutput;
@@ -16,16 +15,9 @@ export namespace CreateAuthor {
         constructor(private readonly authorsRepository: AuthorsPrismaRepository){}
 
         async execute(input: Input): Promise<Output> {
-            const { email, name } = input;
-
-            if(!name || !email) throw new BadRequestError("Input data not provided");
+            const { id } = input;
+            const author = await this.authorsRepository.findById(id);
             
-            const emailExists = await this.authorsRepository.findByEmail(email);
-
-            if(emailExists) throw new ConflictError("Email address used by other author");
-
-            const author = await this.authorsRepository.create(input);
-
             return author;
         }
     }
