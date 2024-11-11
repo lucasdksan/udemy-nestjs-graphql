@@ -8,11 +8,11 @@ import { NotFoundError } from "@/shared/errors/not-found-error";
 export class AuthorsPrismaRepository implements IAuthorsRepository {
     constructor(private readonly prisma: PrismaService) {}
 
-    sortableFields: string[] = ["name", "email", "createdAt", "updatedAt"];
+    sortableFields: string[] = ["name", "email", "createdAt"];
 
     async create(data: CreateAuthorProps): Promise<Author> {
         const author = await this.prisma.author.create({
-            data
+            data,
         });
         
         return author;
