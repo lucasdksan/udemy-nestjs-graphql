@@ -1,7 +1,5 @@
 import { Usecase as DefaultUsecase } from "@/shared/usecases/usecase";
-import { BadRequestError } from "@/shared/errors/bad-request-error";
 import { AuthorsPrismaRepository } from "../repositories/authores-prisma.repository";
-import { ConflictError } from "@/shared/errors/conflict-error";
 import { AuthorOutput } from "../dto/author-output";
 
 export namespace GetAuthor {
