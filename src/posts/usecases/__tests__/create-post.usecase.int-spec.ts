@@ -6,6 +6,7 @@ import { execSync } from "node:child_process";
 import { CreatePost } from "../create-post.usecase";
 import { PostDataBuilder } from "@/posts/helpers/posts-data-builder";
 import { AuthorDataBuilder } from "@/authors/helpers/author-data-builder";
+import { BadRequestError } from "@/shared/errors/bad-request-error";
 
 jest.setTimeout(30000); 
 
@@ -51,5 +52,41 @@ describe("CreatePostUsecase Integration tests", ()=> {
             content: postData.content,
             published: postData.published,
         });
+    });
+
+    test("Should throws error when authorId not provided", async ()=> {
+        const postData = PostDataBuilder({});
+
+        await expect(()=> usecase.execute({ 
+            authorId: null,
+            title: postData.title, 
+            content: postData.content
+        })).rejects.toBeInstanceOf(BadRequestError);
+    });
+
+    test("Should throws error when title not provided", async ()=> {
+        const postData = PostDataBuilder({});
+        const authorData = AuthorDataBuilder({});
+
+        const author = await prisma.author.create({ data: authorData });
+
+        await expect(()=> usecase.execute({ 
+            authorId: author.id,
+            title: null, 
+            content: postData.content
+        })).rejects.toBeInstanceOf(BadRequestError);
+    });
+
+    test("Should throws error when content not provided", async ()=> {
+        const postData = PostDataBuilder({});
+        const authorData = AuthorDataBuilder({});
+
+        const author = await prisma.author.create({ data: authorData });
+
+        await expect(()=> usecase.execute({ 
+            authorId: author.id,
+            title: postData.title, 
+            content: null
+        })).rejects.toBeInstanceOf(BadRequestError);
     });
 });
