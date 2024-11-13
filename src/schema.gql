@@ -30,6 +30,7 @@ type Post {
   content: String!
   published: Boolean!
   authorId: String!
+  author: Author!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -38,12 +39,15 @@ type Query {
   hello: String!
   authors(page: Int, perPage: Int, sort: String, sortDir: String, filter: String): SearchAuthorsResult!
   getAuthor(id: String!): Author!
+  getPost(id: String!): Post!
 }
 
 type Mutation {
   createAuthor(data: CreateAuthorInput!): Author!
   updateAuthor(id: String!, data: UpdateAuthorInput!): Author!
   deleteAuthor(id: String!): Author!
+  publishPost(id: String!): Post!
+  unPublishPost(id: String!): Post!
   createPost(data: CreatePostInput!): Post!
 }
 

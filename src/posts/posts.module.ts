@@ -8,6 +8,7 @@ import { GetPost } from "./usecases/get-post.usecase";
 import { PublishPost } from "./usecases/publish-post.usecase";
 import { UnpublishPost } from "./usecases/unpublish-post.usecase";
 import { PostsResolver } from "./graphql/resolvers/posts.resolver";
+import { GetAuthor } from "@/authors/usecases/get-author.usecase";
 
 @Module({
     imports: [DatabaseModule],
@@ -63,6 +64,13 @@ import { PostsResolver } from "./graphql/resolvers/posts.resolver";
                 return new UnpublishPost.Usecase(postsRepository);
             },
             inject: ["PostRepository"]
+        },
+        {
+            provide: GetAuthor.Usecase,
+            useFactory: (authorsRepository: AuthorsPrismaRepository) => {
+                return new GetAuthor.Usecase(authorsRepository);
+            },
+            inject: ["AuthorsRepository"]
         }
     ]
 })

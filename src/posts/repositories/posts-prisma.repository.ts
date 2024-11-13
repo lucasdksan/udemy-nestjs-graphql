@@ -14,7 +14,7 @@ export class PostsPrismaRepository implements PostsRepository {
         await this.get(post.id);
 
         const postUpdated = await this.prisma.post.update({
-            data: post,
+            data: post as any,
             where: {
                 id: post.id
             }
